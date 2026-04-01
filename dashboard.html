@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEPSE Trading Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #1a1a1a; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #00ff00; }
+        .box { background: #222; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #00ff00; }
+        button { background: #00ff00; color: #000; padding: 10px 20px; border: none; border-radius: 3px; cursor: pointer; margin: 5px; }
+        button:hover { background: #00cc00; }
+        pre { background: #111; padding: 10px; overflow-x: auto; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>[ROCKET] NEPSE Trading Dashboard</h1>
+        
+        <div class="box">
+            <h2>System Health</h2>
+            <button onclick="fetchEndpoint('/health')">Check Health</button>
+            <pre id="health">Loading...</pre>
+        </div>
+
+        <div class="box">
+            <h2>System Status</h2>
+            <button onclick="fetchEndpoint('/status')">Get Status</button>
+            <pre id="status">Loading...</pre>
+        </div>
+
+        <div class="box">
+            <h2>Recent Trades</h2>
+            <button onclick="fetchEndpoint('/trades')">View Trades</button>
+            <pre id="trades">Loading...</pre>
+        </div>
+
+        <div class="box">
+            <h2>Recent Signals</h2>
+            <button onclick="fetchEndpoint('/signals')">View Signals</button>
+            <pre id="signals">Loading...</pre>
+        </div>
+
+        <div class="box">
+            <h2>Statistics</h2>
+            <button onclick="fetchEndpoint('/stats')">View Stats</button>
+            <pre id="stats">Loading...</pre>
+        </div>
+
+        <div class="box">
+            <h2>Run Scan</h2>
+            <button onclick="fetchEndpoint('/scan')">Run Manual Scan</button>
+            <pre id="scan">Loading...</pre>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "6B1F9A6C8D2345C7A3B28E3D76CF4FAB5E6D41A6625478A09B2DDE123F8BB761";
+
+        async function fetchEndpoint(endpoint) {
+            const elementId = endpoint.substring(1); // Remove leading /
+            const element = document.getElementById(elementId);
+            
+            try {
+                element.textContent = "Loading...";
+                
+                const headers = endpoint === '/health' 
+                    ? {} 
+                    : { 'X-API-Key': API_KEY };
+                
+                const response = await fetch(`http://localhost:5000${endpoint}`, {
+                    headers: headers
+                });
+                
+                const data = await response.json();
+                element.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                element.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Load health on page open
+        fetchEndpoint('/health');
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+
+
+1.   cd C:\nepse_ai_trader
+
+
+
+2.   .\venv\Scripts\Activate.ps1
+
+
+
+
+3.   
+
+# Create/update .env file with NEW token and Chat ID
+@"
+NEPSE_BOT_TOKEN=8793789285:AAFsjFjAmTq8fX_OmxdoW8QVK2MlRS2UF7w
+NEPSE_CHAT_ID=1632432258
+NEPSE_API_KEY=6B1F9A6C8D2345C7A3B28E3D76CF4FAB5E6D41A6625478A09B2DDE123F8BB761
+"@ | Set-Content -Path ".env" -Encoding UTF8
+
+# Verify
+Get-Content .env
+
+
+
+
+4.   
+
+Get-Content .env | ForEach-Object {
+    if ($_ -match '^\s*$' -or $_ -match '^\s*#') { return }
+    $key, $value = $_ -split '=', 2
+    [System.Environment]::SetEnvironmentVariable($key.Trim(), $value.Trim(), 'Process')
+}
+
+Write-Host "Bot Token: $env:NEPSE_BOT_TOKEN"
+Write-Host "Chat ID: $env:NEPSE_CHAT_ID"
+
+
+
+
+5.   python main.py
+
+
+
+*    python check_alerts.py
+
+
+
+Scan results:    curl.exe -H "X-API-Key: 6B1F9A6C8D2345C7A3B28E3D76CF4FAB5E6D41A6625478A09B2DDE123F8BB761" http://localhost:5000/scan
+
+Portfolio:       curl.exe -H "X-API-Key: 6B1F9A6C8D2345C7A3B28E3D76CF4FAB5E6D41A6625478A09B2DDE123F8BB761" http://localhost:5000/portfolio_health
+
+
+
+Adding portfolio:
+At portfolio.py:
+
+Replace NABIL, HBL, EBL with YOUR stock names (must be UPPERCASE)
+Replace shares with YOUR quantities
+Replace entry_price with YOUR purchase prices
+
+
+Calculate: Weighted Average = Σ(shares × price) / Σ(shares)

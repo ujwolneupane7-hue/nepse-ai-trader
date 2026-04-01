@@ -1,0 +1,10 @@
+﻿flask==2.3.2
+pandas>=2.0.0
+requests==2.31.0
+websocket-client==1.6.1
+pytz==2023.3
+xlrd==2.0.1
+numpy>=1.24.0
+python-dotenv==1.0.0
+certifi==2023.7.22
+logging-json-formatter==0.5.2
