@@ -436,7 +436,7 @@ _scan_consecutive_errors = 0
 circuit_breaker = None
 alert_builder   = None
 
-app      = Flask(__name__)
+app = Flask(__name__)
 NEPSE_TZ = pytz.timezone('Asia/Kathmandu')
 
 # ════════════════════════════════════════════════════════════════
